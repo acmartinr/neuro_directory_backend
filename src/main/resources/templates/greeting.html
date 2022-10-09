@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+
+    <link th:href="@{/styles/jquery.dataTables.min.css}" rel="stylesheet" />
+
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + '!'" />
+<h1>This is ParrandApp admin page</h1>
+
+
+<h2>Business Names</h2>
+
+<table id="businessList" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Location</th>
+        <th>ImportantPlace</th>
+        <th>Category</th>
+        <th>Cover</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  th:each="place: ${places}">
+        <td th:attr="onclick=|getEvent('${place.getId()}')|" th:text="${place.getBusinessName()}" />
+        <td th:text="${place.getAddress()}" />
+        <td th:text="${place.getLocation()}" />
+        <td th:text="${place.isImportantPlace()}" />
+        <td th:text="${place.getCategory()}" />
+        <td th:text="${place.getCover()}" />
+        <td> <button>Edit</button><button th:attr="onclick=|removeEvent('${place.getId()}')|">Delete</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/admin/addBusiness">Add new Business</a>
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script>
+    function getEvent(placeId){
+        window.location.href = '/admin/events/'+placeId;
+    }
+    function removeEvent(placeId){
+        console.log("removing element...:"+placeId);
+        $.get('/deleteplace/'+placeId, {
+        }, function(response) {
+            if (response == "OK") {
+                console.log("Place deleted")
+                //show toast
+            } else {
+                console.log("Some error in request")
+                //show toast
+            }
+            window.location.href = '/admin';
+        });
+    }
+    $(document).ready(function() {
+        $('#businessList').DataTable();
+    } );
+</script>
+</html>

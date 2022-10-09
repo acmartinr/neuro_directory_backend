@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add event</title>
+</head>
+<body>
+<h2>Add Event</h2>
+
+<form th:action="@{/admin/addEvent}"
+      th:object="${newEvent}" method="post"
+      enctype="multipart/form-data"
+>
+    <input th:field="*{name}" id="event_name" placeholder="event_name"/>
+    <br>
+    <input th:field="*{description}" id="event_description" placeholder="event_description"/>
+    <br>
+    <input th:field="*{category}" id="event_category" placeholder="event_category"/>
+    <br>
+    <input th:field="*{cover}" id="event_cover" placeholder="event_cover"/>
+    <br>
+    <input th:field="*{placeId}" id="event_placeId" placeholder="placeId"/>
+    <br>
+  Event Date  <input th:field="*{strDate}" type="date" id="birthday" name="birthday">
+    <br>
+    <input type="file" name="image" accept="image/png, image/jpeg" />Add Business image
+    <br>
+    <button type="submit">Add Event</button>
+</form>
+</body>
+</html>

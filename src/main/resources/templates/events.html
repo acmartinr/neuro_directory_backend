@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <link th:href="@{/styles/jquery.dataTables.min.css}" rel="stylesheet" />
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + '!'" />
+<h1>Events</h1>
+<table id="eventList" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>cover</th>
+        <th>date</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event: ${events}">
+        <td th:text="${event.getName()}" />
+        <td th:text="${event.getCategory()}" />
+        <td th:text="${event.getCover()}" />
+        <td th:text="${event.getStrDate()}" />
+        <td> <button>Edit</button><button th:attr="onclick=|removeEvent('${event.getId()}','${event.getPlaceId()}')|">Delete</button></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/admin/addEvent">Add new Event</a>
+
+
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script>
+
+    function removeEvent(eventId,placeId){
+        console.log("removing element...:"+eventId);
+        console.log("removing element...:"+placeId);
+        $.get('/deleteevent/'+placeId+"/"+eventId, {
+        }, function(response) {
+            if (response == "OK") {
+                console.log("Event deleted")
+                //show toast
+            } else {
+                console.log("Some error in request")
+                //show toast
+            }
+            window.location.href = '/admin/events/'+placeId;
+        });
+    }
+
+
+    $(document).ready(function() {
+        $('#eventList').DataTable();
+    } );
+</script>
+</body>
+</html>

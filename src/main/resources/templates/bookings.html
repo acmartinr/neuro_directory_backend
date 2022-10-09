@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookings</title>
+
+    <link th:href="@{/styles/jquery.dataTables.min.css}" rel="stylesheet" />
+
+</head>
+<body>
+<h2>Lista de reservas de Parrandapp</h2>
+
+<table id="businessList" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Nombre Completo</th>
+        <th>CI</th>
+        <th>Personas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  th:each="booking: ${bookings}">
+        <td th:text="${booking.getFullname()}" />
+        <td th:text="${booking.getCi()}" />
+        <td th:text="${booking.getPersonCount()}" />
+        <td th:text="${booking.getPersonCount()}" />
+    </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('#businessList').DataTable();
+    } );
+</script>
+</body>
+
+
+</html>

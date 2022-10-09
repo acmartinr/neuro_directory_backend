@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Business</title>
+</head>
+<body>
+
+<form th:action="@{/admin/addBusiness}"
+      th:object="${newPlace}" method="post"
+      enctype="multipart/form-data"
+>
+
+    <input th:field="*{businessName}" id="business_name" placeholder="Business name"/>
+    <br>
+    <input th:field="*{description}" id="business_description" placeholder="Business description"/>
+    <br>
+    <input th:field="*{city}" id="business_city" placeholder="Business city"/>
+    <br>
+    <input th:field="*{address}" id="business_address" placeholder="Business address"/> <a href="#">Select from map</a>
+    <br>
+    <input th:field="*{location[0]}" id="business_latitude" placeholder="Business latitude"/> <input th:field="*{location[1]}"  id="business_longitude" placeholder="Business longitude"/>
+    <br>
+    <input th:field="*{county}" id="business_county" placeholder="Business county"/>
+    <br>
+    <input th:field="*{phoneNumber}" id="business_phone" placeholder="Phone Number"/>
+    <br>
+    <input th:field="*{capacity}" id="business_capacity" placeholder="Business capacity"/>
+    <br>
+    Category
+    <select th:field="*{category}" id="business_category" placeholder="Business category">
+        <br>
+        <option value="art_gallery">
+            art_gallery
+        </option>
+        <option value="bar">
+            bar
+        </option>
+        <option value="cafe">
+            cafe
+        </option>
+        <option value="movie_theater">
+            movie_theater
+        </option>
+        <option value="theater">
+            theater
+        </option>
+        <option value="museum">
+            museum
+        </option>
+        <option value="night_club">
+            night_club
+        </option>
+        <option value="park">
+            park
+        </option>
+        <option value="restaurant">
+            restaurant
+        </option>
+        <option value="stadium">
+            stadium
+        </option>
+        <option value="zoo">
+            zoo
+        </option>
+    </select>
+    <br>
+    <input type="file" name="image" accept="image/png, image/jpeg" />Add Business image
+    <br>
+    <input type="file" name="image_icon" accept="image/png, image/jpeg" />Add Business icon
+    <br>
+    <br>
+    <button type="submit">Add Business</button>
+</form>
+
+<script>
+    function addBuisness(){
+        var businessName = document.getElementById("business_name").value;
+        var businesDescription = document.getElementById("business_description").value;
+        var businessCity = document.getElementById("business_city").value;
+        var businessAddress = document.getElementById("business_address").value;
+        var businessCounty = document.getElementById("business_county").value;
+        var businesCapacity = document.getElementById("business_capacity").value;
+        var businessCategory = document.getElementById("business_category").value;
+        var businessLatitude = document.getElementById("business_latitude").value;
+        var businessLongitude = document.getElementById("business_longitude").value;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            //if (this.readyState != 4) return;
+
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                console.log(data)
+                window.location.href = '/admin';
+                // we get the returned data
+            }else{
+                console.log("Error POST")
+            }
+
+            // end of state change: it can be after some time (async)
+        };
+
+        xhr.open("POST", "http://localhost:8080/place", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            "date":100,
+            "location":[businessLatitude,businessLongitude],
+            "description":businesDescription,
+            "cover":20,
+            "businessName":businessName,
+            "category":businessCategory,
+            "city":businessCity,
+            "address":businessAddress,
+            "county":businessCounty,
+            "capacity":businesCapacity,
+            "importantPlace":true
+        }));
+    }
+</script>
+</body>
+</html>
